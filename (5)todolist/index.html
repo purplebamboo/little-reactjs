@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script src="./react-little.js"></script>
+
+
+<style type="text/css">
+  #container{
+    width: 500px;
+    background-color: #fafafa;
+    min-height: 200px;
+    margin: 100px auto;
+    text-align: center;
+    padding: 20px;
+
+  }
+  #container p{
+    display: inline-block;
+    border: 1px solid #999;
+    padding: 5px 5px;
+    cursor: pointer;
+  }
+
+  #container input{
+    width: 200px;
+    border: 1px solid #999;
+    padding: 6px;
+    vertical-align: 1px;
+  }
+
+
+</style>
+
+</head>
+
+<body>
+
+<div id="container"></div>
+
+<script type="text/javascript">
+
+var TodoList = React.createClass({
+  getInitialState: function() {
+    return {items: []};
+  },
+  add:function(){
+    var nextItems = this.state.items.concat([this.state.text]);
+    this.setState({items: nextItems, text: ''});
+  },
+  onChange: function(e) {
+    this.setState({text: e.target.value});
+  },
+  render: function() {
+    var createItem = function(itemText) {
+      return React.createElement("div", null, itemText);
+    };
+
+    var lists = this.state.items.map(createItem);
+    var input = React.createElement("input", {onkeyup: this.onChange.bind(this),value: this.state.text});
+    var button = React.createElement("p", {onclick: this.add.bind(this)}, 'Add#' + (this.state.items.length + 1))
+    var children = [input,button].concat(lists)
+
+    return React.createElement("div", null,children);
+  }
+});
+
+
+React.render(React.createElement(TodoList), document.getElementById("container"));
+
+
+</script>
+</body>
+
+
+</html>
